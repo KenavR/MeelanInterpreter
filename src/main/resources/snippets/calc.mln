@@ -1,0 +1,15 @@
+funcdef add(a, b) {
+  a + b;
+}
+
+funcdef multiply(a, b) {
+  a * b;
+}
+
+funcdef even(a) {
+    if ((a % 2) == 0) then 1 else 0
+}
+
+var result = multiply(add(1, 2), add(3, 4));
+print result;
+print even(result);
