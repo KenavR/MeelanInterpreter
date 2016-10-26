@@ -52,12 +52,12 @@ public interface MeelanVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStmt(MeelanParser.IfStmtContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code funcdefStmt}
+	 * Visit a parse tree produced by the {@code funcStmt}
 	 * labeled alternative in {@link MeelanParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFuncdefStmt(MeelanParser.FuncdefStmtContext ctx);
+	T visitFuncStmt(MeelanParser.FuncStmtContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code blockStmt}
 	 * labeled alternative in {@link MeelanParser#statement}.

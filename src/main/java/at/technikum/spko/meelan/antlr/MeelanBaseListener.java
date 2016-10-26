@@ -88,13 +88,13 @@ public class MeelanBaseListener implements MeelanListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFuncdefStmt(MeelanParser.FuncdefStmtContext ctx) { }
+	@Override public void enterFuncStmt(MeelanParser.FuncStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFuncdefStmt(MeelanParser.FuncdefStmtContext ctx) { }
+	@Override public void exitFuncStmt(MeelanParser.FuncStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

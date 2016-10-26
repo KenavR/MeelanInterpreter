@@ -78,17 +78,17 @@ public interface MeelanListener extends ParseTreeListener {
 	 */
 	void exitIfStmt(MeelanParser.IfStmtContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code funcdefStmt}
+	 * Enter a parse tree produced by the {@code funcStmt}
 	 * labeled alternative in {@link MeelanParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterFuncdefStmt(MeelanParser.FuncdefStmtContext ctx);
+	void enterFuncStmt(MeelanParser.FuncStmtContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code funcdefStmt}
+	 * Exit a parse tree produced by the {@code funcStmt}
 	 * labeled alternative in {@link MeelanParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitFuncdefStmt(MeelanParser.FuncdefStmtContext ctx);
+	void exitFuncStmt(MeelanParser.FuncStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code blockStmt}
 	 * labeled alternative in {@link MeelanParser#statement}.

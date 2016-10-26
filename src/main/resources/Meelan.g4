@@ -11,7 +11,7 @@ statement: 'print' e=expr                                                       
             | 'if' con=expr 'then' stmtIf=statement ('else' stmtElse=statement)?                        #ifStmt
             //| 'if!Null' o=expr ',' con=expr 'then' sIf=statement ('else' sElse=statement)?            #ifNotNullStmt
             //| 'whileif' cif=expr ',' cwhile=expr 'do' '{' sIf=statements '}' '{' sElse=statements '}' #whileIfStmt
-            | 'funcdef' funcName=ID '(' idlist ')' statement                                                     #funcdefStmt
+            | 'func' funcName=ID '(' idlist ')' statement                                                     #funcStmt
             | '{' stmt=statements '}'                                                                   #blockStmt
             | val=expr                                                                                  #simpleExpr
             ;

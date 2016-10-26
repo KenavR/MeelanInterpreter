@@ -1,12 +1,12 @@
-funcdef add(a, b) {
+func add(a, b) {
   a + b;
 }
 
-funcdef multiply(a, b) {
+func multiply(a, b) {
   a * b;
 }
 
-funcdef even(a) {
+func even(a) {
     if ((a % 2) == 0) then 1 else 0
 }
 

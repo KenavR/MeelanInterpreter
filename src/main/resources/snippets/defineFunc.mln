@@ -1,4 +1,4 @@
-funcdef even(a) {
+func even(a) {
     if ((a % 2) == 0) then 1 else 0
 }
 

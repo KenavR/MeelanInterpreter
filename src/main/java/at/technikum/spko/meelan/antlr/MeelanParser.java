@@ -30,7 +30,7 @@ public class MeelanParser extends Parser {
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "';'", "'print'", "'var'", "'='", "'while'", "'do'", "'if'", "'then'", 
-		"'else'", "'funcdef'", "'('", "')'", "'{'", "'}'", "'<'", "'=<'", "'<='", 
+		"'else'", "'func'", "'('", "')'", "'{'", "'}'", "'<'", "'=<'", "'<='", 
 		"'=='", "'><'", "'<>'", "'!='", "'>='", "'>'", "'*'", "'/'", "'%'", "'+'", 
 		"'-'", "','"
 	};
@@ -166,30 +166,6 @@ public class MeelanParser extends Parser {
 		public StatementContext() { }
 		public void copyFrom(StatementContext ctx) {
 			super.copyFrom(ctx);
-		}
-	}
-	public static class FuncdefStmtContext extends StatementContext {
-		public Token funcName;
-		public IdlistContext idlist() {
-			return getRuleContext(IdlistContext.class,0);
-		}
-		public StatementContext statement() {
-			return getRuleContext(StatementContext.class,0);
-		}
-		public TerminalNode ID() { return getToken(MeelanParser.ID, 0); }
-		public FuncdefStmtContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MeelanListener ) ((MeelanListener)listener).enterFuncdefStmt(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MeelanListener ) ((MeelanListener)listener).exitFuncdefStmt(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MeelanVisitor ) return ((MeelanVisitor<? extends T>)visitor).visitFuncdefStmt(this);
-			else return visitor.visitChildren(this);
 		}
 	}
 	public static class PrintStmtContext extends StatementContext {
@@ -346,6 +322,30 @@ public class MeelanParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class FuncStmtContext extends StatementContext {
+		public Token funcName;
+		public IdlistContext idlist() {
+			return getRuleContext(IdlistContext.class,0);
+		}
+		public StatementContext statement() {
+			return getRuleContext(StatementContext.class,0);
+		}
+		public TerminalNode ID() { return getToken(MeelanParser.ID, 0); }
+		public FuncStmtContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MeelanListener ) ((MeelanListener)listener).enterFuncStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MeelanListener ) ((MeelanListener)listener).exitFuncStmt(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MeelanVisitor ) return ((MeelanVisitor<? extends T>)visitor).visitFuncStmt(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final StatementContext statement() throws RecognitionException {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
@@ -439,13 +439,13 @@ public class MeelanParser extends Parser {
 				}
 				break;
 			case 6:
-				_localctx = new FuncdefStmtContext(_localctx);
+				_localctx = new FuncStmtContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(43);
 				match(T__9);
 				setState(44);
-				((FuncdefStmtContext)_localctx).funcName = match(ID);
+				((FuncStmtContext)_localctx).funcName = match(ID);
 				setState(45);
 				match(T__10);
 				setState(46);

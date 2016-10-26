@@ -87,13 +87,13 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
                 : visit(ctx.stmtElse);
     }
 
-    public Integer visitFuncdefStmt(MeelanParser.FuncdefStmtContext ctx) {
+    public Integer visitFuncStmt(MeelanParser.FuncStmtContext ctx) {
 
         String funcName = ctx.funcName.getText();
         MeelanParser.StatementContext statement = ctx.statement();
 
         if (funcName == null || statement == null) {
-            System.err.println("FuncdefStmt: function name or function body was null!");
+            System.err.println("FuncStmt: function name or function body was null!");
             return null;
         }
 
@@ -226,15 +226,15 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
         if (ctx == null) return "global";
         String textNode = ctx.getText();
 
-        if (textNode != null && ctx.getText().contains("funcdef")) {
-            String cutString = textNode.substring(textNode.lastIndexOf("funcdef") + 7);
+        if (textNode != null && ctx.getText().contains("func")) {
+            String cutString = textNode.substring(textNode.lastIndexOf("func") + 4);
             cutString = cutString.substring(cutString.indexOf("{"), cutString.lastIndexOf("}")+1);
 
             for(String token : tokens) {
                 cutString = cutString.replaceAll(token, " ");
             }
             if (cutString.contains(" " + varName + " ")) {
-                return textNode.substring(textNode.lastIndexOf("funcdef") + 7, textNode.indexOf("("));
+                return textNode.substring(textNode.lastIndexOf("func") + 4, textNode.indexOf("("));
             }
 
         }
