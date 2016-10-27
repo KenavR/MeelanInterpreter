@@ -12,11 +12,17 @@ import java.util.stream.IntStream;
 
 public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements MeelanVisitor<Integer> {
 
-    final Map<String, Integer> variables = new HashMap<>();
-    final Map<String, FunctionState> functions = new HashMap<>();
-    final Map<String, ObserverListener> observers = new HashMap<>();
+    private MeelanVisitorState state;
+
+    public MeelanVisitorImpl() {
+        this.state = new MeelanVisitorState();
+    }
 
     final String[] tokens = {"<", ">", "\\+", "-", "\\*", "/","%","\\(","\\)","=", ";", "print", "\\{", "\\}"};
+
+    public void resetState() {
+        this.state = new MeelanVisitorState();
+    }
 
     public Integer visitStatements(MeelanParser.StatementsContext ctx) {
         Integer lastResult = null;
@@ -39,7 +45,7 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
         if (value == null) {
             System.err.println("DefineStmt: expr '" + id + "' was null!");
         } else {
-            variables.put(id, value);
+            state.variables.put(id, value);
         }
 
         return value;
@@ -52,13 +58,13 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
         if (value == null) {
             System.err.println("AssignStmt: expr was null!");
         }
-        if (!variables.containsKey(id)) {
+        if (!state.variables.containsKey(id)) {
             System.err.println("ID - " + id + " - not defined!");
             return null;
         } else {
-            variables.put(id, value);
+            state.variables.put(id, value);
             List<String> observableNames = getObservableNames(id);
-            observableNames.forEach(name -> observers.get(name).observers.forEach(this::visit));
+            observableNames.forEach(name -> state.observers.get(name).observers.forEach(this::visit));
         }
 
         return value;
@@ -98,13 +104,13 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
         try {
             if(obsName == null || obsName.length() <= 0) throw new IllegalArgumentException("ObservableStmt: Observablename can not be null!");
             if(observedVar == null || observedVar.length() <= 0) throw new IllegalArgumentException("ObservableStmt: Observed variable can not be null!");
-            if(!variables.containsKey(observedVar)) throw new IllegalArgumentException("ObservableStmt: Variable '"+observedVar+"' does not exist!");
+            if(!state.variables.containsKey(observedVar)) throw new IllegalArgumentException("ObservableStmt: Variable '"+observedVar+"' does not exist!");
         } catch (IllegalArgumentException iae) {
             System.err.println(iae.getMessage());
             return null;
         }
 
-        observers.put(obsName, new ObserverListener(observedVar, 0, new ArrayList<>()));
+        state.observers.put(obsName, new ObserverListener(observedVar, 0, new ArrayList<>()));
 
         return null;
     }
@@ -116,13 +122,13 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
 
         try {
             if(observable == null) throw new IllegalArgumentException("ObserverStmt: Observable name can not be null!");
-            if(!observers.containsKey(observable)) throw new IllegalArgumentException("ObserverStmt: Observable does not exist!");
+            if(!state.observers.containsKey(observable)) throw new IllegalArgumentException("ObserverStmt: Observable does not exist!");
         } catch (IllegalArgumentException iae) {
             System.err.println(iae.getMessage());
             return null;
         }
 
-        observers.get(observable).observers.add(statementContext);
+        state.observers.get(observable).observers.add(statementContext);
 
         return null;
     }
@@ -142,8 +148,8 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
                 .map(varName -> funcName + "_" + varName)
                 .collect(Collectors.toList());
 
-        argList.forEach(arg -> variables.put(arg, 0));
-        functions.put(funcName, new FunctionState(funcName, argList, statement));
+        argList.forEach(arg -> state.variables.put(arg, 0));
+        state.functions.put(funcName, new FunctionState(funcName, argList, statement));
 
         return null;
     }
@@ -179,15 +185,15 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
         List<Integer> evaluatedArgs = ctx.arglist().expr().stream().map(this::visit).collect(Collectors.toList());
 
         try {
-            if (funcName == null || !functions.containsKey(funcName))
+            if (funcName == null || !state.functions.containsKey(funcName))
                 throw new IllegalArgumentException("function '" + funcName + "' is not defined!");
 
-            FunctionState fn = functions.get(funcName);
+            FunctionState fn = state.functions.get(funcName);
 
             if (evaluatedArgs.size() != fn.arguments.size())
                 throw new IllegalArgumentException("function '" + funcName + "' required " + fn.arguments.size() + " arguments!");
 
-            IntStream.range(0, fn.arguments.size()).forEach(idx -> variables.put(fn.arguments.get(idx), evaluatedArgs.get(idx)));
+            IntStream.range(0, fn.arguments.size()).forEach(idx -> state.variables.put(fn.arguments.get(idx), evaluatedArgs.get(idx)));
             Integer VALUE = visit(fn.statement);
             return VALUE;
 
@@ -250,38 +256,55 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
     }
 
     public Integer visitIdExpr(MeelanParser.IdExprContext ctx) {
-        String id = ctx.ID().getText();
-        String scope = getVariableScope(ctx, id);
-        if (!scope.equals("global")) id = scope + "_" + id;
+        final String id = ctx.ID().getText();
+        List<String> scopes = (List) getVariableScope(ctx, id, new LinkedList<>());
 
-        if (!variables.containsKey(id)) {
+        String scopeVar = scopes
+                .stream()
+                .map(scopeName -> {
+                    return (!scopeName.equals("global"))
+                            ? scopeName + "_" + id
+                            : id;
+                })
+                .filter(varName -> state.variables.containsKey(varName))
+                .findFirst()
+                .get();
+
+        if (!state.variables.containsKey(scopeVar)) {
             System.err.println("IdExpr: unknown symbol: " + id + "!");
             return null;
         }
 
-        return variables.get(id);
+        return state.variables.get(scopeVar);
     }
 
-    private String getVariableScope(ParserRuleContext ctx, String varName) {
-        if (ctx == null) return "global";
-        String textNode = ctx.getText();
-        if (textNode != null && ctx.getText().contains("func")) {
-            String cutString = textNode.substring(textNode.lastIndexOf("func") + 4);
-            cutString = cutString.substring(cutString.indexOf("{"), cutString.lastIndexOf("}")+1);
-
-            for(String token : tokens) {
-                cutString = cutString.replaceAll(token, " ");
-            }
-            if (cutString.contains(" " + varName + " ")) {
-                return textNode.substring(textNode.lastIndexOf("func") + 4, textNode.indexOf("("));
-            }
-
+    private Queue<String> getVariableScope(ParserRuleContext ctx, String varName, Queue<String> scope) {
+        if (ctx == null) {
+            scope.add("global");
+            return scope;
         }
-        return getVariableScope(ctx.getParent(), varName);
+
+        if(ctx.getParent() != null) return getVariableScope(ctx.getParent(), varName, scope);
+
+        String textNode = ctx.getText();
+        if(ctx.getParent() == null) {
+            while(textNode.contains("func")) {
+                int firstFunc = textNode.indexOf("func")+4;
+
+                String funcName = textNode.substring(
+                        firstFunc,
+                        firstFunc + textNode.substring(textNode.indexOf("func")+4).indexOf("(")
+                );
+                scope.add(funcName);
+                textNode = textNode.substring(textNode.indexOf("func")+4);
+            }
+        }
+
+        return getVariableScope(ctx.getParent(), varName, scope);
     }
 
     private List<String> getObservableNames(String varName) {
-        return observers
+        return state.observers
                 .entrySet()
                 .stream()
                 .filter(entry -> entry.getValue().varName.equals(varName))

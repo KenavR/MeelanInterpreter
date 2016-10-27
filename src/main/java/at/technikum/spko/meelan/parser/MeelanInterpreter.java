@@ -24,7 +24,7 @@ public class MeelanInterpreter {
         TokenStream tokenStream = new CommonTokenStream(new MeelanLexer(new ANTLRInputStream(source)));
 
         MeelanParser parser = new MeelanParser(tokenStream);
-
+        visitor.resetState();
         visitor.visit(parser.statements());
     }
 
@@ -48,9 +48,7 @@ public class MeelanInterpreter {
         for (final File fileEntry : testFilesFolder.listFiles()) {
             try {
                 System.out.println("TEST FOR "+fileEntry.getName()+"("+fileEntry.getPath()+")");
-                //if(fileEntry.getName().contains("Inline")) {
-                    interpreter.interpretFromFile(fileEntry.getPath());
-                //}
+                interpreter.interpretFromFile(fileEntry.getPath());
 
             } catch (IOException e) {
                 System.out.println(e.getMessage());

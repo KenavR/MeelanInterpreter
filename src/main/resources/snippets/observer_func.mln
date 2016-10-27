@@ -1,0 +1,15 @@
+var data = 0;
+var i = 0;
+
+observable dataObs, data;
+observer dataObs, { print data; };
+
+func updateData(newData) {
+  data = newData;
+}
+
+while i<10 do
+{
+	i = i+1;
+	updateData(data+i);
+}
