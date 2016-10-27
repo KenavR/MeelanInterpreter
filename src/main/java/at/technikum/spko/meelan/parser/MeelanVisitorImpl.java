@@ -18,7 +18,7 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
         this.state = new MeelanVisitorState();
     }
 
-    final String[] tokens = {"<", ">", "\\+", "-", "\\*", "/","%","\\(","\\)","=", ";", "print", "\\{", "\\}"};
+    final String[] tokens = {"<", ">", "\\+", "-", "\\*", "/", "%", "\\(", "\\)", "=", ";", "print", "\\{", "\\}"};
 
     public void resetState() {
         this.state = new MeelanVisitorState();
@@ -102,9 +102,12 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
         String observedVar = ctx.var.getText();
 
         try {
-            if(obsName == null || obsName.length() <= 0) throw new IllegalArgumentException("ObservableStmt: Observablename can not be null!");
-            if(observedVar == null || observedVar.length() <= 0) throw new IllegalArgumentException("ObservableStmt: Observed variable can not be null!");
-            if(!state.variables.containsKey(observedVar)) throw new IllegalArgumentException("ObservableStmt: Variable '"+observedVar+"' does not exist!");
+            if (obsName == null || obsName.length() <= 0)
+                throw new IllegalArgumentException("ObservableStmt: Observablename can not be null!");
+            if (observedVar == null || observedVar.length() <= 0)
+                throw new IllegalArgumentException("ObservableStmt: Observed variable can not be null!");
+            if (!state.variables.containsKey(observedVar))
+                throw new IllegalArgumentException("ObservableStmt: Variable '" + observedVar + "' does not exist!");
         } catch (IllegalArgumentException iae) {
             System.err.println(iae.getMessage());
             return null;
@@ -121,8 +124,10 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
         MeelanParser.StatementContext statementContext = ctx.stmt;
 
         try {
-            if(observable == null) throw new IllegalArgumentException("ObserverStmt: Observable name can not be null!");
-            if(!state.observers.containsKey(observable)) throw new IllegalArgumentException("ObserverStmt: Observable does not exist!");
+            if (observable == null)
+                throw new IllegalArgumentException("ObserverStmt: Observable name can not be null!");
+            if (!state.observers.containsKey(observable))
+                throw new IllegalArgumentException("ObserverStmt: Observable does not exist!");
         } catch (IllegalArgumentException iae) {
             System.err.println(iae.getMessage());
             return null;
@@ -278,30 +283,32 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
         return state.variables.get(scopeVar);
     }
 
-    private Queue<String> getVariableScope(ParserRuleContext ctx, String varName, Queue<String> scope) {
-        if (ctx == null) {
+    private List<String> getVariableScope(ParserRuleContext ctx, String varName, List<String> scope) {
+        if(ctx == null) {
             scope.add("global");
             return scope;
         }
 
-        if(ctx.getParent() != null) return getVariableScope(ctx.getParent(), varName, scope);
-
         String textNode = ctx.getText();
-        if(ctx.getParent() == null) {
-            while(textNode.contains("func")) {
-                int firstFunc = textNode.indexOf("func")+4;
 
-                String funcName = textNode.substring(
-                        firstFunc,
-                        firstFunc + textNode.substring(textNode.indexOf("func")+4).indexOf("(")
-                );
+        if(!textNode.contains("func")) return getVariableScope(ctx.getParent(), varName, scope);
+
+        while(textNode.contains("func")) {
+            int firstFunc = textNode.indexOf("func")+4;
+
+            String funcName = textNode.substring(
+                    firstFunc,
+                    firstFunc + textNode.substring(textNode.indexOf("func")+4).indexOf("(")
+            );
+            if(!scope.contains(funcName))
                 scope.add(funcName);
-                textNode = textNode.substring(textNode.indexOf("func")+4);
-            }
+            textNode = textNode.substring(textNode.indexOf("func")+4);
         }
+
 
         return getVariableScope(ctx.getParent(), varName, scope);
     }
+
 
     private List<String> getObservableNames(String varName) {
         return state.observers
