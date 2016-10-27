@@ -1,4 +1,4 @@
-// Generated from C:/Users/Rene/Desktop/projects/MeelanInterpreter/src/main/resources\Meelan.g4 by ANTLR 4.5.3
+// Generated from D:/projects/FH-M/MeelanInterpreter/src/main/resources\Meelan.g4 by ANTLR 4.5.3
 package at.technikum.spko.meelan.antlr;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -20,7 +20,8 @@ public class MeelanParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, ID=30, INT=31, WS=32;
+		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
+		ID=32, INT=33, WS=34;
 	public static final int
 		RULE_statements = 0, RULE_statement = 1, RULE_expr = 2, RULE_idlist = 3, 
 		RULE_arglist = 4;
@@ -30,14 +31,14 @@ public class MeelanParser extends Parser {
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "';'", "'print'", "'var'", "'='", "'while'", "'do'", "'if'", "'then'", 
-		"'else'", "'func'", "'('", "')'", "'{'", "'}'", "'<'", "'=<'", "'<='", 
-		"'=='", "'><'", "'<>'", "'!='", "'>='", "'>'", "'*'", "'/'", "'%'", "'+'", 
-		"'-'", "','"
+		"'else'", "'observable'", "','", "'observer'", "'func'", "'('", "')'", 
+		"'{'", "'}'", "'<'", "'=<'", "'<='", "'=='", "'><'", "'<>'", "'!='", "'>='", 
+		"'>'", "'*'", "'/'", "'%'", "'+'", "'-'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, "ID", "INT", "WS"
+		null, null, null, null, null, null, null, null, "ID", "INT", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -124,7 +125,7 @@ public class MeelanParser extends Parser {
 			setState(16);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__2) | (1L << T__4) | (1L << T__6) | (1L << T__9) | (1L << T__10) | (1L << T__12) | (1L << T__27) | (1L << ID) | (1L << INT))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__2) | (1L << T__4) | (1L << T__6) | (1L << T__9) | (1L << T__11) | (1L << T__12) | (1L << T__13) | (1L << T__15) | (1L << T__30) | (1L << ID) | (1L << INT))) != 0)) {
 				{
 				{
 				setState(10);
@@ -253,6 +254,28 @@ public class MeelanParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class ObserverStmtContext extends StatementContext {
+		public Token forObs;
+		public StatementContext stmt;
+		public TerminalNode ID() { return getToken(MeelanParser.ID, 0); }
+		public StatementContext statement() {
+			return getRuleContext(StatementContext.class,0);
+		}
+		public ObserverStmtContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MeelanListener ) ((MeelanListener)listener).enterObserverStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MeelanListener ) ((MeelanListener)listener).exitObserverStmt(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MeelanVisitor ) return ((MeelanVisitor<? extends T>)visitor).visitObserverStmt(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class IfStmtContext extends StatementContext {
 		public ExprContext con;
 		public StatementContext stmtIf;
@@ -322,6 +345,28 @@ public class MeelanParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class ObservableStmtContext extends StatementContext {
+		public Token name;
+		public Token var;
+		public List<TerminalNode> ID() { return getTokens(MeelanParser.ID); }
+		public TerminalNode ID(int i) {
+			return getToken(MeelanParser.ID, i);
+		}
+		public ObservableStmtContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MeelanListener ) ((MeelanListener)listener).enterObservableStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MeelanListener ) ((MeelanListener)listener).exitObservableStmt(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MeelanVisitor ) return ((MeelanVisitor<? extends T>)visitor).visitObservableStmt(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class FuncStmtContext extends StatementContext {
 		public Token funcName;
 		public IdlistContext idlist() {
@@ -352,7 +397,7 @@ public class MeelanParser extends Parser {
 		enterRule(_localctx, 2, RULE_statement);
 		int _la;
 		try {
-			setState(55);
+			setState(63);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 			case 1:
@@ -439,40 +484,68 @@ public class MeelanParser extends Parser {
 				}
 				break;
 			case 6:
-				_localctx = new FuncStmtContext(_localctx);
+				_localctx = new ObservableStmtContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(43);
 				match(T__9);
 				setState(44);
-				((FuncStmtContext)_localctx).funcName = match(ID);
+				((ObservableStmtContext)_localctx).name = match(ID);
 				setState(45);
 				match(T__10);
 				setState(46);
-				idlist();
-				setState(47);
-				match(T__11);
-				setState(48);
-				statement();
+				((ObservableStmtContext)_localctx).var = match(ID);
 				}
 				break;
 			case 7:
-				_localctx = new BlockStmtContext(_localctx);
+				_localctx = new ObserverStmtContext(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
+				setState(47);
+				match(T__11);
+				setState(48);
+				((ObserverStmtContext)_localctx).forObs = match(ID);
+				setState(49);
+				match(T__10);
 				setState(50);
-				match(T__12);
-				setState(51);
-				((BlockStmtContext)_localctx).stmt = statements();
-				setState(52);
-				match(T__13);
+				((ObserverStmtContext)_localctx).stmt = statement();
 				}
 				break;
 			case 8:
-				_localctx = new SimpleExprContext(_localctx);
+				_localctx = new FuncStmtContext(_localctx);
 				enterOuterAlt(_localctx, 8);
 				{
+				setState(51);
+				match(T__12);
+				setState(52);
+				((FuncStmtContext)_localctx).funcName = match(ID);
+				setState(53);
+				match(T__13);
 				setState(54);
+				idlist();
+				setState(55);
+				match(T__14);
+				setState(56);
+				statement();
+				}
+				break;
+			case 9:
+				_localctx = new BlockStmtContext(_localctx);
+				enterOuterAlt(_localctx, 9);
+				{
+				setState(58);
+				match(T__15);
+				setState(59);
+				((BlockStmtContext)_localctx).stmt = statements();
+				setState(60);
+				match(T__16);
+				}
+				break;
+			case 10:
+				_localctx = new SimpleExprContext(_localctx);
+				enterOuterAlt(_localctx, 10);
+				{
+				setState(62);
 				((SimpleExprContext)_localctx).val = expr(0);
 				}
 				break;
@@ -657,7 +730,7 @@ public class MeelanParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(75);
+			setState(83);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 			case 1:
@@ -666,9 +739,9 @@ public class MeelanParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(58);
-				match(T__27);
-				setState(59);
+				setState(66);
+				match(T__30);
+				setState(67);
 				((NegStmtContext)_localctx).e = expr(6);
 				}
 				break;
@@ -677,12 +750,12 @@ public class MeelanParser extends Parser {
 				_localctx = new WrapperExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(60);
-				match(T__10);
-				setState(61);
+				setState(68);
+				match(T__13);
+				setState(69);
 				((WrapperExprContext)_localctx).e = expr(0);
-				setState(62);
-				match(T__11);
+				setState(70);
+				match(T__14);
 				}
 				break;
 			case 3:
@@ -690,14 +763,14 @@ public class MeelanParser extends Parser {
 				_localctx = new FunccallStmtContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(64);
+				setState(72);
 				((FunccallStmtContext)_localctx).funcName = match(ID);
-				setState(65);
-				match(T__10);
-				setState(66);
+				setState(73);
+				match(T__13);
+				setState(74);
 				arglist();
-				setState(67);
-				match(T__11);
+				setState(75);
+				match(T__14);
 				}
 				break;
 			case 4:
@@ -705,7 +778,7 @@ public class MeelanParser extends Parser {
 				_localctx = new IdExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(69);
+				setState(77);
 				match(ID);
 				}
 				break;
@@ -714,7 +787,7 @@ public class MeelanParser extends Parser {
 				_localctx = new NumExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(70);
+				setState(78);
 				match(INT);
 				}
 				break;
@@ -723,17 +796,17 @@ public class MeelanParser extends Parser {
 				_localctx = new InlineStmtContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(71);
-				match(T__12);
-				setState(72);
+				setState(79);
+				match(T__15);
+				setState(80);
 				((InlineStmtContext)_localctx).stmts = statements();
-				setState(73);
-				match(T__13);
+				setState(81);
+				match(T__16);
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(88);
+			setState(96);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -741,7 +814,7 @@ public class MeelanParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(86);
+					setState(94);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 					case 1:
@@ -749,17 +822,17 @@ public class MeelanParser extends Parser {
 						_localctx = new OpExprContext(new ExprContext(_parentctx, _parentState));
 						((OpExprContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(77);
+						setState(85);
 						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(78);
+						setState(86);
 						((OpExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__14) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__21) | (1L << T__22))) != 0)) ) {
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__21) | (1L << T__22) | (1L << T__23) | (1L << T__24) | (1L << T__25))) != 0)) ) {
 							((OpExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						} else {
 							consume();
 						}
-						setState(79);
+						setState(87);
 						((OpExprContext)_localctx).right = expr(10);
 						}
 						break;
@@ -768,17 +841,17 @@ public class MeelanParser extends Parser {
 						_localctx = new OpExprContext(new ExprContext(_parentctx, _parentState));
 						((OpExprContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(80);
+						setState(88);
 						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(81);
+						setState(89);
 						((OpExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__23) | (1L << T__24) | (1L << T__25))) != 0)) ) {
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__26) | (1L << T__27) | (1L << T__28))) != 0)) ) {
 							((OpExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						} else {
 							consume();
 						}
-						setState(82);
+						setState(90);
 						((OpExprContext)_localctx).right = expr(9);
 						}
 						break;
@@ -787,24 +860,24 @@ public class MeelanParser extends Parser {
 						_localctx = new OpExprContext(new ExprContext(_parentctx, _parentState));
 						((OpExprContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(83);
+						setState(91);
 						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(84);
+						setState(92);
 						((OpExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==T__26 || _la==T__27) ) {
+						if ( !(_la==T__29 || _la==T__30) ) {
 							((OpExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						} else {
 							consume();
 						}
-						setState(85);
+						setState(93);
 						((OpExprContext)_localctx).right = expr(8);
 						}
 						break;
 					}
 					} 
 				}
-				setState(90);
+				setState(98);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			}
@@ -852,21 +925,21 @@ public class MeelanParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(91);
+			setState(99);
 			match(ID);
-			setState(96);
+			setState(104);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__28) {
+			while (_la==T__10) {
 				{
 				{
-				setState(92);
-				match(T__28);
-				setState(93);
+				setState(100);
+				match(T__10);
+				setState(101);
 				match(ID);
 				}
 				}
-				setState(98);
+				setState(106);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -917,22 +990,22 @@ public class MeelanParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(99);
+			setState(107);
 			expr(0);
 			}
-			setState(104);
+			setState(112);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__28) {
+			while (_la==T__10) {
 				{
 				{
-				setState(100);
-				match(T__28);
-				setState(101);
+				setState(108);
+				match(T__10);
+				setState(109);
 				expr(0);
 				}
 				}
-				setState(106);
+				setState(114);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -969,35 +1042,37 @@ public class MeelanParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\"n\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\5\2\17\n\2\7\2\21\n\2\f\2\16\2\24\13"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3$v\4\2\t\2\4\3\t\3"+
+		"\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\5\2\17\n\2\7\2\21\n\2\f\2\16\2\24\13"+
 		"\2\3\3\3\3\3\3\3\3\3\3\3\3\5\3\34\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\5\3,\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\5\3:\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
-		"\3\4\3\4\3\4\3\4\3\4\3\4\5\4N\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
-		"\7\4Y\n\4\f\4\16\4\\\13\4\3\5\3\5\3\5\7\5a\n\5\f\5\16\5d\13\5\3\6\3\6"+
-		"\3\6\7\6i\n\6\f\6\16\6l\13\6\3\6\2\3\6\7\2\4\6\b\n\2\5\3\2\21\31\3\2\32"+
-		"\34\3\2\35\36}\2\22\3\2\2\2\49\3\2\2\2\6M\3\2\2\2\b]\3\2\2\2\ne\3\2\2"+
-		"\2\f\16\5\4\3\2\r\17\7\3\2\2\16\r\3\2\2\2\16\17\3\2\2\2\17\21\3\2\2\2"+
-		"\20\f\3\2\2\2\21\24\3\2\2\2\22\20\3\2\2\2\22\23\3\2\2\2\23\3\3\2\2\2\24"+
-		"\22\3\2\2\2\25\26\7\4\2\2\26:\5\6\4\2\27\30\7\5\2\2\30\33\7 \2\2\31\32"+
-		"\7\6\2\2\32\34\5\6\4\2\33\31\3\2\2\2\33\34\3\2\2\2\34:\3\2\2\2\35\36\7"+
-		" \2\2\36\37\7\6\2\2\37:\5\6\4\2 !\7\7\2\2!\"\5\6\4\2\"#\7\b\2\2#$\5\4"+
-		"\3\2$:\3\2\2\2%&\7\t\2\2&\'\5\6\4\2\'(\7\n\2\2(+\5\4\3\2)*\7\13\2\2*,"+
-		"\5\4\3\2+)\3\2\2\2+,\3\2\2\2,:\3\2\2\2-.\7\f\2\2./\7 \2\2/\60\7\r\2\2"+
-		"\60\61\5\b\5\2\61\62\7\16\2\2\62\63\5\4\3\2\63:\3\2\2\2\64\65\7\17\2\2"+
-		"\65\66\5\2\2\2\66\67\7\20\2\2\67:\3\2\2\28:\5\6\4\29\25\3\2\2\29\27\3"+
-		"\2\2\29\35\3\2\2\29 \3\2\2\29%\3\2\2\29-\3\2\2\29\64\3\2\2\298\3\2\2\2"+
-		":\5\3\2\2\2;<\b\4\1\2<=\7\36\2\2=N\5\6\4\b>?\7\r\2\2?@\5\6\4\2@A\7\16"+
-		"\2\2AN\3\2\2\2BC\7 \2\2CD\7\r\2\2DE\5\n\6\2EF\7\16\2\2FN\3\2\2\2GN\7 "+
-		"\2\2HN\7!\2\2IJ\7\17\2\2JK\5\2\2\2KL\7\20\2\2LN\3\2\2\2M;\3\2\2\2M>\3"+
-		"\2\2\2MB\3\2\2\2MG\3\2\2\2MH\3\2\2\2MI\3\2\2\2NZ\3\2\2\2OP\f\13\2\2PQ"+
-		"\t\2\2\2QY\5\6\4\fRS\f\n\2\2ST\t\3\2\2TY\5\6\4\13UV\f\t\2\2VW\t\4\2\2"+
-		"WY\5\6\4\nXO\3\2\2\2XR\3\2\2\2XU\3\2\2\2Y\\\3\2\2\2ZX\3\2\2\2Z[\3\2\2"+
-		"\2[\7\3\2\2\2\\Z\3\2\2\2]b\7 \2\2^_\7\37\2\2_a\7 \2\2`^\3\2\2\2ad\3\2"+
-		"\2\2b`\3\2\2\2bc\3\2\2\2c\t\3\2\2\2db\3\2\2\2ej\5\6\4\2fg\7\37\2\2gi\5"+
-		"\6\4\2hf\3\2\2\2il\3\2\2\2jh\3\2\2\2jk\3\2\2\2k\13\3\2\2\2lj\3\2\2\2\f"+
-		"\16\22\33+9MXZbj";
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3B\n\3\3\4\3\4\3\4\3\4"+
+		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4V\n\4\3\4"+
+		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4a\n\4\f\4\16\4d\13\4\3\5\3\5\3\5\7"+
+		"\5i\n\5\f\5\16\5l\13\5\3\6\3\6\3\6\7\6q\n\6\f\6\16\6t\13\6\3\6\2\3\6\7"+
+		"\2\4\6\b\n\2\5\3\2\24\34\3\2\35\37\3\2 !\u0087\2\22\3\2\2\2\4A\3\2\2\2"+
+		"\6U\3\2\2\2\be\3\2\2\2\nm\3\2\2\2\f\16\5\4\3\2\r\17\7\3\2\2\16\r\3\2\2"+
+		"\2\16\17\3\2\2\2\17\21\3\2\2\2\20\f\3\2\2\2\21\24\3\2\2\2\22\20\3\2\2"+
+		"\2\22\23\3\2\2\2\23\3\3\2\2\2\24\22\3\2\2\2\25\26\7\4\2\2\26B\5\6\4\2"+
+		"\27\30\7\5\2\2\30\33\7\"\2\2\31\32\7\6\2\2\32\34\5\6\4\2\33\31\3\2\2\2"+
+		"\33\34\3\2\2\2\34B\3\2\2\2\35\36\7\"\2\2\36\37\7\6\2\2\37B\5\6\4\2 !\7"+
+		"\7\2\2!\"\5\6\4\2\"#\7\b\2\2#$\5\4\3\2$B\3\2\2\2%&\7\t\2\2&\'\5\6\4\2"+
+		"\'(\7\n\2\2(+\5\4\3\2)*\7\13\2\2*,\5\4\3\2+)\3\2\2\2+,\3\2\2\2,B\3\2\2"+
+		"\2-.\7\f\2\2./\7\"\2\2/\60\7\r\2\2\60B\7\"\2\2\61\62\7\16\2\2\62\63\7"+
+		"\"\2\2\63\64\7\r\2\2\64B\5\4\3\2\65\66\7\17\2\2\66\67\7\"\2\2\678\7\20"+
+		"\2\289\5\b\5\29:\7\21\2\2:;\5\4\3\2;B\3\2\2\2<=\7\22\2\2=>\5\2\2\2>?\7"+
+		"\23\2\2?B\3\2\2\2@B\5\6\4\2A\25\3\2\2\2A\27\3\2\2\2A\35\3\2\2\2A \3\2"+
+		"\2\2A%\3\2\2\2A-\3\2\2\2A\61\3\2\2\2A\65\3\2\2\2A<\3\2\2\2A@\3\2\2\2B"+
+		"\5\3\2\2\2CD\b\4\1\2DE\7!\2\2EV\5\6\4\bFG\7\20\2\2GH\5\6\4\2HI\7\21\2"+
+		"\2IV\3\2\2\2JK\7\"\2\2KL\7\20\2\2LM\5\n\6\2MN\7\21\2\2NV\3\2\2\2OV\7\""+
+		"\2\2PV\7#\2\2QR\7\22\2\2RS\5\2\2\2ST\7\23\2\2TV\3\2\2\2UC\3\2\2\2UF\3"+
+		"\2\2\2UJ\3\2\2\2UO\3\2\2\2UP\3\2\2\2UQ\3\2\2\2Vb\3\2\2\2WX\f\13\2\2XY"+
+		"\t\2\2\2Ya\5\6\4\fZ[\f\n\2\2[\\\t\3\2\2\\a\5\6\4\13]^\f\t\2\2^_\t\4\2"+
+		"\2_a\5\6\4\n`W\3\2\2\2`Z\3\2\2\2`]\3\2\2\2ad\3\2\2\2b`\3\2\2\2bc\3\2\2"+
+		"\2c\7\3\2\2\2db\3\2\2\2ej\7\"\2\2fg\7\r\2\2gi\7\"\2\2hf\3\2\2\2il\3\2"+
+		"\2\2jh\3\2\2\2jk\3\2\2\2k\t\3\2\2\2lj\3\2\2\2mr\5\6\4\2no\7\r\2\2oq\5"+
+		"\6\4\2pn\3\2\2\2qt\3\2\2\2rp\3\2\2\2rs\3\2\2\2s\13\3\2\2\2tr\3\2\2\2\f"+
+		"\16\22\33+AU`bjr";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

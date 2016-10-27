@@ -1,4 +1,4 @@
-// Generated from C:/Users/Rene/Desktop/projects/MeelanInterpreter/src/main/resources\Meelan.g4 by ANTLR 4.5.3
+// Generated from D:/projects/FH-M/MeelanInterpreter/src/main/resources\Meelan.g4 by ANTLR 4.5.3
 package at.technikum.spko.meelan.antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -83,6 +83,30 @@ public class MeelanBaseListener implements MeelanListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIfStmt(MeelanParser.IfStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterObservableStmt(MeelanParser.ObservableStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitObservableStmt(MeelanParser.ObservableStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterObserverStmt(MeelanParser.ObserverStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitObserverStmt(MeelanParser.ObserverStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

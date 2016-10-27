@@ -1,4 +1,4 @@
-// Generated from C:/Users/Rene/Desktop/projects/MeelanInterpreter/src/main/resources\Meelan.g4 by ANTLR 4.5.3
+// Generated from D:/projects/FH-M/MeelanInterpreter/src/main/resources\Meelan.g4 by ANTLR 4.5.3
 package at.technikum.spko.meelan.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -77,6 +77,30 @@ public interface MeelanListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIfStmt(MeelanParser.IfStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code observableStmt}
+	 * labeled alternative in {@link MeelanParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterObservableStmt(MeelanParser.ObservableStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code observableStmt}
+	 * labeled alternative in {@link MeelanParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitObservableStmt(MeelanParser.ObservableStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code observerStmt}
+	 * labeled alternative in {@link MeelanParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterObserverStmt(MeelanParser.ObserverStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code observerStmt}
+	 * labeled alternative in {@link MeelanParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitObserverStmt(MeelanParser.ObserverStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code funcStmt}
 	 * labeled alternative in {@link MeelanParser#statement}.

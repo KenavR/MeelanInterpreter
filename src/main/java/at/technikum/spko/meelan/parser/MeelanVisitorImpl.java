@@ -14,6 +14,7 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
 
     final Map<String, Integer> variables = new HashMap<>();
     final Map<String, FunctionState> functions = new HashMap<>();
+    final Map<String, ObserverListener> observers = new HashMap<>();
 
     final String[] tokens = {"<", ">", "\\+", "-", "\\*", "/","%","\\(","\\)","=", ";", "print", "\\{", "\\}"};
 
@@ -56,6 +57,8 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
             return null;
         } else {
             variables.put(id, value);
+            List<String> observableNames = getObservableNames(id);
+            observableNames.forEach(name -> observers.get(name).observers.forEach(this::visit));
         }
 
         return value;
@@ -85,6 +88,43 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
         return (con.equals(1))
                 ? visit(ctx.stmtIf)
                 : visit(ctx.stmtElse);
+    }
+
+    @Override
+    public Integer visitObservableStmt(MeelanParser.ObservableStmtContext ctx) {
+        String obsName = ctx.name.getText();
+        String observedVar = ctx.var.getText();
+
+        try {
+            if(obsName == null || obsName.length() <= 0) throw new IllegalArgumentException("ObservableStmt: Observablename can not be null!");
+            if(observedVar == null || observedVar.length() <= 0) throw new IllegalArgumentException("ObservableStmt: Observed variable can not be null!");
+            if(!variables.containsKey(observedVar)) throw new IllegalArgumentException("ObservableStmt: Variable '"+observedVar+"' does not exist!");
+        } catch (IllegalArgumentException iae) {
+            System.err.println(iae.getMessage());
+            return null;
+        }
+
+        observers.put(obsName, new ObserverListener(observedVar, 0, new ArrayList<>()));
+
+        return null;
+    }
+
+    @Override
+    public Integer visitObserverStmt(MeelanParser.ObserverStmtContext ctx) {
+        String observable = ctx.forObs.getText();
+        MeelanParser.StatementContext statementContext = ctx.stmt;
+
+        try {
+            if(observable == null) throw new IllegalArgumentException("ObserverStmt: Observable name can not be null!");
+            if(!observers.containsKey(observable)) throw new IllegalArgumentException("ObserverStmt: Observable does not exist!");
+        } catch (IllegalArgumentException iae) {
+            System.err.println(iae.getMessage());
+            return null;
+        }
+
+        observers.get(observable).observers.add(statementContext);
+
+        return null;
     }
 
     public Integer visitFuncStmt(MeelanParser.FuncStmtContext ctx) {
@@ -225,7 +265,6 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
     private String getVariableScope(ParserRuleContext ctx, String varName) {
         if (ctx == null) return "global";
         String textNode = ctx.getText();
-
         if (textNode != null && ctx.getText().contains("func")) {
             String cutString = textNode.substring(textNode.lastIndexOf("func") + 4);
             cutString = cutString.substring(cutString.indexOf("{"), cutString.lastIndexOf("}")+1);
@@ -238,7 +277,15 @@ public class MeelanVisitorImpl extends MeelanBaseVisitor<Integer> implements Mee
             }
 
         }
-
         return getVariableScope(ctx.getParent(), varName);
+    }
+
+    private List<String> getObservableNames(String varName) {
+        return observers
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().varName.equals(varName))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 }

@@ -1,0 +1,12 @@
+
+var i = 0;
+
+observable iObs, i;
+observer iObs, { print i; };
+observer iObs, { print i-10; };
+
+
+while i<10 do
+{
+	i=i+1;
+}

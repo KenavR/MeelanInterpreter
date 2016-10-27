@@ -1,4 +1,4 @@
-// Generated from C:/Users/Rene/Desktop/projects/MeelanInterpreter/src/main/resources\Meelan.g4 by ANTLR 4.5.3
+// Generated from D:/projects/FH-M/MeelanInterpreter/src/main/resources\Meelan.g4 by ANTLR 4.5.3
 package at.technikum.spko.meelan.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -51,6 +51,20 @@ public interface MeelanVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIfStmt(MeelanParser.IfStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code observableStmt}
+	 * labeled alternative in {@link MeelanParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitObservableStmt(MeelanParser.ObservableStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code observerStmt}
+	 * labeled alternative in {@link MeelanParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitObserverStmt(MeelanParser.ObserverStmtContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code funcStmt}
 	 * labeled alternative in {@link MeelanParser#statement}.
