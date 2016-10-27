@@ -8,9 +8,7 @@ statement: 'print' e=expr                                                       
             | 'while' con=expr 'do' stmt=statement                                                      #whileStmt
             | 'if' con=expr 'then' stmtIf=statement ('else' stmtElse=statement)?                        #ifStmt
 						| 'observable' name=ID ',' var=ID																														#observableStmt
-						| 'observer' forObs=ID ',' stmt=statement																														#observerStmt
-            //| 'if!Null' o=expr ',' con=expr 'then' sIf=statement ('else' sElse=statement)?            #ifNotNullStmt
-            //| 'whileif' cif=expr ',' cwhile=expr 'do' '{' sIf=statements '}' '{' sElse=statements '}' #whileIfStmt
+						| 'observer' forObs=ID ',' stmt=statement																										#observerStmt
             | 'func' funcName=ID '(' idlist ')' statement                                               #funcStmt
             | '{' stmt=statements '}'                                                                   #blockStmt
             | val=expr                                                                                  #simpleExpr
